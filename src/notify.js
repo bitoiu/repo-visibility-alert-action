@@ -112,6 +112,7 @@ let getPersonalisedMessage = function() {
 
 let messageUsers = function(users, message) {
 
+  // Texting multiple times requires looping
   users.forEach ( user => {
     log.info(`Texting ${user.name} at ${user.number}`);
     client.messages
