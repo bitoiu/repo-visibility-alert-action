@@ -1,0 +1,13 @@
+{
+  "name": "repo-visibility-alert-action",
+  "version": "0.0.1",
+  "description": "Alert org owners of a repo made public via SMS",
+  "dependencies": {
+    "loglevel": "^1.6.1",
+    "request-promise": "^4.2.4",
+    "twilio": "^3.28.1"
+  },
+  "devDependencies": {
+    "standard": "^12.0.1"
+  }
+}
