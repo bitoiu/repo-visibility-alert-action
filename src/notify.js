@@ -149,6 +149,3 @@ log.setLevel(process.env.LOG_LEVEL || 'info')
 const webhookData = getWebhookData()
 log.info(`Event data: ${JSON.stringify(webhookData)}`)
 main()
-
-
-
