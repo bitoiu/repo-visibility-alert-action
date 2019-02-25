@@ -7,9 +7,11 @@ const request = require('request-promise')
 const log = require('loglevel')
 const fs = require('fs')
 
-const messageTemplate = "Hey $USER$. The repository $REPO$ has been made public by $ACTOR$. If you want to convert it back to private, reply to this SMS with PRIVATE:repo-name"
+const notifyMessageTemplate = "Hey $USER$. The repository $ORG/REPO$ has been made public by $ACTOR$"
+const replyMessageTemplate = ", If you want to convert it back to private, reply to this SMS with PRIVATE:$REPO$"
 const recipients_url = process.env.NUMBERS
 const github_user = process.env.GITHUB_REPOSITORY.split('/')[0]
+const github_repo = process.env.GITHUB_REPOSITORY.split('/')[1]
 
 
 let getRecipients = async function() {
@@ -84,7 +86,7 @@ let sendMessage = function (recipients) {
   // Message users
   client.messages
     .create({
-      body: messageTemplate,
+      body: notifyMessageTemplate,
       from: '+441375350442',
       to: '+447535113049'
     })
@@ -104,10 +106,13 @@ let getValidRecipients = function(allRecipients, organizationOwners) {
 
 let getPersonalisedMessage = function() {
 
-  return messageTemplate
-    .replace("$REPO$", process.env.GITHUB_REPOSITORY)
+  return notifyMessageTemplate
+    .replace("$ORG/REPO$", process.env.GITHUB_REPOSITORY)
     .replace("$ACTOR$", webhookData.actor)
-
+    .concat(process.env.NOTIFY_ONLY == "true"
+      ? "."
+      : replyMessageTemplate.replace("$REPO$", github_repo)
+    )
 }
 
 let messageUsers = function(users, message) {
