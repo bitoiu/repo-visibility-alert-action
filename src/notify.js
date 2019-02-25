@@ -7,14 +7,13 @@ const request = require('request-promise')
 const log = require('loglevel')
 const fs = require('fs')
 
-const notifyMessageTemplate = "Hey $USER$. The repository $ORG/REPO$ has been made public by $ACTOR$"
-const replyMessageTemplate = ", If you want to convert it back to private, reply to this SMS with PRIVATE:$REPO$"
+const notifyMessageTemplate = 'Hey $USER$. The repository $ORG/REPO$ has been made public by $ACTOR$'
+const replyMessageTemplate = ', If you want to convert it back to private, reply to this SMS with PRIVATE:$REPO$'
 const recipients_url = process.env.NUMBERS
 const github_user = process.env.GITHUB_REPOSITORY.split('/')[0]
 const github_repo = process.env.GITHUB_REPOSITORY.split('/')[1]
 
-
-let getRecipients = async function() {
+let getRecipients = async function () {
 
   let options = {url: recipients_url}
   try {
@@ -25,8 +24,8 @@ let getRecipients = async function() {
     body.split(/\r\n|\n|\r/).forEach(function (line) {
       log.debug(`${line}`)
       recipients_list.push({
-        'name' : line.split(':')[0],
-        'number' :line.split(':')[1]
+        'name': line.split(':')[0],
+        'number': line.split(':')[1]
       })
     })
     return recipients_list
@@ -72,14 +71,13 @@ let getOwners = async function () {
     }
     let owners_list = JSON.parse(response.body).map(user => user.login)
     log.trace(response.body)
-    log.debug("List of owners:" + owners_list)
-    return owners_list;
+    log.debug('List of owners:' + owners_list)
+    return owners_list
   } catch (err) {
     log.error(err)
     process.exit(1)
   }
 }
-
 
 let sendMessage = function (recipients) {
 
@@ -92,37 +90,37 @@ let sendMessage = function (recipients) {
     })
 }
 
-let getValidRecipients = function(allRecipients, organizationOwners) {
+let getValidRecipients = function (allRecipients, organizationOwners) {
 
   return allRecipients.filter((recipient) => {
-    for ( owner of organizationOwners) {
+    for (owner of organizationOwners) {
       if (recipient.name == owner) {
-        return true;
+        return true
       }
     }
-    return false;
+    return false
   })
 }
 
-let getPersonalisedMessage = function() {
+let getPersonalisedMessage = function () {
 
   return notifyMessageTemplate
-    .replace("$ORG/REPO$", process.env.GITHUB_REPOSITORY)
-    .replace("$ACTOR$", webhookData.actor)
-    .concat(process.env.NOTIFY_ONLY == "true"
-      ? "."
-      : replyMessageTemplate.replace("$REPO$", github_repo)
+    .replace('$ORG/REPO$', process.env.GITHUB_REPOSITORY)
+    .replace('$ACTOR$', webhookData.actor)
+    .concat(process.env.NOTIFY_ONLY == 'true'
+      ? '.'
+      : replyMessageTemplate.replace('$REPO$', github_repo)
     )
 }
 
-let messageUsers = function(users, message) {
+let messageUsers = function (users, message) {
 
   // Texting multiple times requires looping
-  users.forEach ( user => {
-    log.info(`Texting ${user.name} at ${user.number}`);
+  users.forEach(user => {
+    log.info(`Texting ${user.name} at ${user.number}`)
     client.messages
       .create({
-        body: message.replace("$USER$", user.name),
+        body: message.replace('$USER$', user.name),
         from: '+441375350442',
         to: user.number
       })
@@ -132,22 +130,22 @@ let messageUsers = function(users, message) {
 let main = async function () {
 
   // Get list of recipients on file and current owner list
-  [allRecipients, organizationOwners] = await Promise.all([getRecipients(), getOwners()]);
+  [allRecipients, organizationOwners] = await Promise.all([getRecipients(), getOwners()])
 
   // If there's no recipients on file, exit gracefully
-  if (allRecipients.length <=0) {
-    log.warn("No one to notify, recipients file is empty or malformed")
+  if (allRecipients.length <= 0) {
+    log.warn('No one to notify, recipients file is empty or malformed')
     process.exit(0)
   }
 
   // Match current owners with recipients on file
   let validRecipients = getValidRecipients(allRecipients, organizationOwners)
   let message = getPersonalisedMessage()
-  messageUsers(validRecipients, message);
+  messageUsers(validRecipients, message)
 
 }
 
-log.setLevel(process.env.LOG_LEVEL || "info");
+log.setLevel(process.env.LOG_LEVEL || 'info')
 const webhookData = getWebhookData()
 log.info(`Event data: ${JSON.stringify(webhookData)}`)
 main()
