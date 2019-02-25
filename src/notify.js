@@ -109,11 +109,10 @@ let getPersonalisedMessage = function() {
   return notifyMessageTemplate
     .replace("$ORG/REPO$", process.env.GITHUB_REPOSITORY)
     .replace("$ACTOR$", webhookData.actor)
-    .concat(process.env.SMS_REPLY == "true"
-      ? replyMessageTemplate.replace("$REPO$", github_repo)
-      : "."
+    .concat(process.env.NOTIFY_ONLY == "true"
+      ? "."
+      : replyMessageTemplate.replace("$REPO$", github_repo)
     )
-
 }
 
 let messageUsers = function(users, message) {
