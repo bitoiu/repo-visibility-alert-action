@@ -10,7 +10,9 @@ This GitHub Action can be installed in organizations repositories and it will no
 
 To run this action you'll need:
  - To be part of the [Actions beta](https://github.com/features/actions). 
- - A [Twillio Account and correspondent `account_sid` and `auth_token`](https://www.twilio.com/docs/usage/your-request-to-twilio#credentials). To test this Action one can setup a trial Twilio account.
+ - A [Twillio Account and correspondent `account_sid` and `auth_token`](https://www.twilio.com/docs/usage/your-request-to-twilio#credentials). To test this Action you can setup a trial Twilio account.
+   - When [creating a new project on Twilio](https://www.twilio.com/console/projects/create), select "Programmable SMS" in the Product section for a quick start.
+   - `account_sid` and `auth_token` are accessible via your [Project settings](https://www.twilio.com/console/project/settings) or on your [console dashboard](https://www.twilio.com/console).
  - **A text file hosted anywhere** with the list of target owners and their phone numbers. I personally use [GitHub Gists](https://gist.github.com) and get the link of the raw file. Just note that edits to file in Gists change the raw file URL.
  - A [GitHub Personal Access or App Token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) with scope `read:org` from a user who's at least a member of the organization, but ideally an owner. 
  
