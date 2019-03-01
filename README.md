@@ -38,7 +38,7 @@ Add a new workflow to your `.github/main.workflow` to trigger on `public`. Give 
 Create an action that uses this repository `bitoiu/repo-visibility-alert-action@master` or points to Docker Hub at `docker://bitoiu/repo-visibility-alert-action`. Follow that by configuring the secrets and environment variables:
 
 **Required**:
- - `GH_TOKEN`: a [GitHub Personal Access or App Token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) with scope `read:org`
+ - `GH_TOKEN`: a [GitHub Personal Access Token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) with scope `read:org`
  - `NUMBERS`: URL pointing to a public hosted file where every line is in the form of `owner_handle:phone-number`, for example `bitoiu:+447535223145`.
  - `ACCOUNT_SID`: The [Twilio account ID](https://www.twilio.com/docs/usage/your-request-to-twilio#credentials)
  - `AUTH_TOKEN`: The [Twilio auth token](https://www.twilio.com/docs/usage/your-request-to-twilio#credentials)
