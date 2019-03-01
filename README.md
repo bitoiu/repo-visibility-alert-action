@@ -14,7 +14,8 @@ To run this action you'll need:
    - You need to [create a new project on Twilio](https://www.twilio.com/console/projects/create) to view these. However, you do not need to actually select a pre-made template or product.
    - `account_sid` and `auth_token` are accessible via one of your [Project settings](https://www.twilio.com/console/project/settings) or on one of your [console dashboard views](https://www.twilio.com/console).
  - **A text file hosted anywhere** with the list of target owners and their phone numbers. I personally use [GitHub Gists](https://gist.github.com) and get the link of the raw file. Just note that edits to file in Gists change the raw file URL.
- - A [GitHub Personal Access or App Token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) with scope `read:org` from a user who's at least a member of the organization, but ideally an owner. 
+ - A [GitHub Personal Access Token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) with scope `read:org` from a user who's at least a member of the organization, but ideally an owner.
+   - **Note:** This should ideally be a [bot user account](https://developer.github.com/v3/guides/managing-deploy-keys/#machine-users) so that it is not tied to an actual user in the event that person leaves the company and that key belongs to them.
  
 ## How does it work
 
